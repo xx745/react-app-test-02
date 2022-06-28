@@ -24,6 +24,7 @@ You may also see any lint errors in the console.
 We will be marking on your ability to spot bad code and refactoring it into a more efficient solution.
 
 1. Fix any bugs you find
-2. Add a third Alert called 'error'
-3. Refactor the code
-4. Extra points for converting the App class to Hooks
+2. Add a third Alert called 'error' (only one alert should be shown at a time)
+3. Add PropTypes
+4. Refactor the code
+5. Extra points for converting the App class to Hooks
