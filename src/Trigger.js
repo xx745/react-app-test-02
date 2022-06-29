@@ -1,44 +1,33 @@
-import React, {Component} from 'react';
-import {Fragment} from 'react';
-import {FormControl, InputLabel, MenuItem, Select} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Fragment } from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-class Trigger extends Component {
+export default function Trigger({ updateAlertMessage }) {
+    const [alertState, setAlertState] = useState('info');
 
-    constructor(props) {
-        super();
-        this.state = {
-            alertState: 'info',
-        }
-        this.onChange = this.onChange.bind(this);
-    }
+    const handleSelectionChange = event => {
+        setAlertState(event.target.value);
+    };
 
-    onChange(event) {
-        this.setState({
-            alertState: event.target.value
-        })
-        this.props.onChange(this.state.alertState)
-    }
+    useEffect(() => {
+        updateAlertMessage(alertState);
+    }, [alertState]);
 
-    render() {
-        return (
-            <Fragment>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Alert</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Age"
-                        value={this.state.alertState}
-                        onChange={this.onChange}
-                    >
-                        <MenuItem value={'info'}>Info</MenuItem>
-                        <MenuItem value={'warning'}>Warning</MenuItem>
-                    </Select>
-                </FormControl>
-            </Fragment>
-        )
-    }
+    return (
+        <Fragment>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Alert</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Alert"
+                    value={alertState}
+                    onChange={handleSelectionChange}>
+                    <MenuItem value={'info'}>Info</MenuItem>
+                    <MenuItem value={'warning'}>Warning</MenuItem>
+                    <MenuItem value={'error'}>Error</MenuItem>
+                </Select>
+            </FormControl>
+        </Fragment>
+    )
 }
-
-export default Trigger;
-

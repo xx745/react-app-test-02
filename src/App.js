@@ -1,60 +1,75 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import MyAlert from './MyAlert';
-import {Stack, Typography} from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Trigger from './Trigger';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            warning: false,
-            info   : false,
-        }
-        this.onChange = this.onChange.bind(this);
-    }
+const App = () => {
+    const [alertInfo, setAlertInfo] = useState(true);
+    const [alertWarning, setAlertWarning] = useState(false);
+    const [alertError, setAlertError] = useState(false);
 
-    componentDidMount() {
-        var info = true;
-        this.setState({warning: info})
-    }
+    useEffect(() => {
+        // setAlertInfo(true);
+        // setAlertWarning(true);
+        // setAlertError(true);
+    }, [alertInfo, alertWarning, alertError]);
 
-    onChange(value) {
-        console.log(value);
-        if (value === 'warning') {
-            this.setState({warning: true})
-        }
-        if (value === 'info') {
-            this.setState({info: true})
-        }
-    }
+    const handleMessageUpdate = value => {
+        switch (value) {
+            case value === 'info':
+                console.log('--info case')
+                setAlertInfo(true)
+                setAlertWarning(false)
+                setAlertError(false)
+                break;
+            case value === 'warning':
+                console.log('--warning case')
+                setAlertWarning(false)
+                setAlertWarning(true)
+                setAlertError(false)
+                break;
+            case value === 'error':
+                console.log('--error case')
+                setAlertError(false)
+                setAlertWarning(false)
+                setAlertError(true)
+                break;
+        };
+    };
 
-    render() {
-        const {info} = this.state;
+    return (
+        <>
+            <Stack sx={{ width: '600px', padding: '20px' }} spacing={2}>
+                <Typography variant={'h4'}>Alerts</Typography>
+                {
+                    alertInfo
+                    ? <MyAlert
+                    type={'info'}
+                    title={'Information'}
+                    content={'This is an information message'} /> 
+                    : null
+                }
+                {
+                    alertWarning
+                    ? <MyAlert
+                        type={'warning'}
+                        title={'Warning'}
+                        content={'This is a warning message'} /> 
+                    : null
+                }
+                {
+                    alertError
+                    ? <MyAlert
+                        type={'error'}
+                        title={'Error'}
+                        content={'This is an error message'} />
+                    : null
+                }
+                <Trigger updateAlertMessage={handleMessageUpdate} />
+            </Stack>
 
-        return (
-            <>
-                <Stack sx={{width: '600px', padding: '20px'}} spacing={2}>
-                    <Typography variant={'h4'}>Alerts</Typography>
-                    {
-                        this.state.warning ? <MyAlert
-                            type={'warning'}
-                            title={'Warning'}
-                            content={'This is a warning message'}
-                        /> :null
-                    }
-                    {
-                        info ? <MyAlert
-                            type={'info'}
-                            title={'Information'}
-                            content={'This is a information message'}
-                        /> :null
-                    }
-                    <Trigger onChange={this.onChange}/>
-                </Stack>
-
-            </>
-        );
-    }
+        </>
+    );
 };
 
 export default App;
