@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import MyAlert from './MyAlert';
 import {Stack, Typography} from '@mui/material';
+import Trigger from './Trigger';
 
 class App extends Component {
     constructor(props) {
@@ -9,11 +10,22 @@ class App extends Component {
             warning: false,
             info   : false,
         }
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
         var info = true;
         this.setState({warning: info})
+    }
+
+    onChange(value) {
+        console.log(value);
+        if (value === 'warning') {
+            this.setState({warning: true})
+        }
+        if (value === 'info') {
+            this.setState({info: true})
+        }
     }
 
     render() {
@@ -37,7 +49,9 @@ class App extends Component {
                             content={'This is a information message'}
                         /> :null
                     }
+                    <Trigger onChange={this.onChange}/>
                 </Stack>
+
             </>
         );
     }
