@@ -3,7 +3,7 @@ import MyAlert from './MyAlert';
 import { Stack, Typography } from '@mui/material';
 import Trigger from './Trigger';
 
-const App = () => {
+const App = () => { // could be named function
   const ALERTS = { // ideally it would be in a separate file with other constants
     info: {
       type: 'info',

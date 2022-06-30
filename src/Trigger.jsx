@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-export default function Trigger({ updateAlertMessage, alertTypes }) {
-  const [alertState, setAlertState] = useState(alertTypes.info.type);
+function Trigger({ updateAlertMessage, alertTypes }) { // could be arrow function
+  const { type: infoAlert } = alertTypes.info;
+  const [alertState, setAlertState] = useState(infoAlert);
 
   const updateParentAndLocalState = newValue => {
     updateAlertMessage(newValue);
@@ -38,3 +40,20 @@ export default function Trigger({ updateAlertMessage, alertTypes }) {
     </Fragment>
   );
 }
+
+export const sharedPropShape = { // could be exported to separate file
+  type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired
+};
+
+Trigger.propTypes = {
+  updateAlertMessage: PropTypes.func.isRequired,
+  alertTypes: PropTypes.shape({
+    info: PropTypes.shape(sharedPropShape).isRequired,
+    warning: PropTypes.shape(sharedPropShape).isRequired,
+    error: PropTypes.shape(sharedPropShape).isRequired
+  }).isRequired
+};
+
+export default Trigger;
